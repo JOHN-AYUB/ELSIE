@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features - ELSIE Learning Ecosystem</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --fg-primary: #f5f5f7;
+      --fg-secondary: #a0a0a8;
+      --accent-gold: #c9a962;
+      --accent-gold-light: #e8d5a3;
+      --accent-warm: #d4a574;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-highlight: rgba(255, 255, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .font-display {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Liquid Glass Effect */
+    .liquid-glass {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.02) 50%,
+        rgba(255, 255, 255, 0.05) 100%
+      );
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 var(--glass-highlight),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .liquid-glass-intense {
+      background: linear-gradient(
+        135deg,
+        rgba(201, 169, 98, 0.08) 0%,
+        rgba(255, 255, 255, 0.04) 50%,
+        rgba(201, 169, 98, 0.08) 100%
+      );
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(201, 169, 98, 0.15);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(201, 169, 98, 0.05),
+        inset 0 1px 0 rgba(201, 169, 98, 0.2);
+    }
+
+    /* Animated Background */
+    .hero-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201, 169, 98, 0.3) 0%, transparent 70%);
+      top: -200px;
+      right: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 165, 116, 0.25) 0%, transparent 70%);
+      bottom: -100px;
+      left: -100px;
+      animation-delay: -7s;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201, 169, 98, 0.2) 0%, transparent 70%);
+      top: 50%;
+      left: 30%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.05); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(20px, 30px) scale(1.02); }
+    }
+
+    /* Grid Pattern */
+    .grid-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: 
+        linear-gradient(rgba(201, 169, 98, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 169, 98, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+    }
+
+    /* Navigation */
+    .nav-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-container.scrolled {
+      padding: 0.75rem 2rem;
+    }
+
+    .nav-container.scrolled .nav-inner {
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      border-radius: 100px;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-link {
+      position: relative;
+      color: var(--fg-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--fg-primary);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      width: 28px;
+      height: 20px;
+      position: relative;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      display: block;
+      position: absolute;
+      height: 1.5px;
+      width: 100%;
+      background: var(--fg-primary);
+      border-radius: 2px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hamburger span:nth-child(1) { top: 0; }
+    .hamburger span:nth-child(2) { top: 9px; width: 70%; }
+    .hamburger span:nth-child(3) { top: 18px; width: 85%; }
+
+    .hamburger.active span:nth-child(1) {
+      top: 9px;
+      transform: rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .hamburger.active span:nth-child(3) {
+      top: 9px;
+      width: 100%;
+      transform: rotate(-45deg);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 10, 15, 0.98);
+      backdrop-filter: blur(30px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mobile-menu.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu-link {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--fg-secondary);
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mobile-menu.active .mobile-menu-link {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-link:hover {
+      color: var(--accent-gold);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    /* Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* Section Styling */
+    .section {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    /* Feature Detail Card */
+    .feature-detail-card {
+      position: relative;
+      padding: 2.5rem;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .feature-detail-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(201, 169, 98, 0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .feature-detail-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-detail-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(201, 169, 98, 0.05);
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, rgba(201, 169, 98, 0.2) 0%, rgba(201, 169, 98, 0.05) 100%);
+      border: 1px solid rgba(201, 169, 98, 0.2);
+    }
+
+    /* Pill Selector */
+    .pill-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      background: rgba(201, 169, 98, 0.1);
+      border: 1px solid rgba(201, 169, 98, 0.2);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent-gold);
+      margin-bottom: 1rem;
+    }
+
+    /* CTA Button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-warm) 100%);
+      color: var(--bg-primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(201, 169, 98, 0.3);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: transparent;
+      color: var(--fg-primary);
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      border-radius: 100px;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent-gold);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      background: rgba(10, 10, 15, 0.5);
+    }
+
+    /* Floating Elements */
+    .float-element {
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-inner {
+        padding: 0.75rem 1rem;
+      }
+      .section {
+        padding: 4rem 1rem;
+      }
+      .hero {
+        padding: 6rem 1rem 4rem;
+      }
+    }
+
+    /* Focus States */
+    :focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-pattern"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-container" id="navbar">
+    <div class="nav-inner liquid-glass">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">
+          <span class="text-[var(--accent-gold)]">ELSIE</span>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-8">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="#" class="nav-link" style="color: var(--fg-primary);">Features</a>
+          <a href="how it works.html" class="nav-link">How It Works</a>
+          <a href="funding.html" class="nav-link">Funding</a>
+          <a href="impact.html" class="nav-link">Impact</a>
+          <button class="btn-primary text-sm py-2 px-4">Get Started</button>
+        </div>
+
+        <div class="hamburger md:hidden" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-menu-link">Home</a>
+    <a href="#" class="mobile-menu-link">Features</a>
+    <a href="index.html#funding" class="mobile-menu-link">Funding</a>
+    <a href="index.html#impact" class="mobile-menu-link">Impact</a>
+    <button class="btn-primary mt-8">Get Started</button>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="reveal mb-6">
+        <span class="inline-block px-4 py-2 rounded-full liquid-glass text-sm text-[var(--accent-gold)] font-medium tracking-wide">
+          Platform Capabilities
+        </span>
+      </div>
+      
+      <h1 class="hero-title reveal reveal-delay-1 mb-6">
+        The Architecture of <br><span class="text-[var(--accent-gold)]">Brilliance</span>
+      </h1>
+      
+      <p class="reveal reveal-delay-2 text-lg md:text-xl text-[var(--fg-secondary)] max-w-2xl mx-auto leading-relaxed">
+        Every feature is engineered to remove friction, amplify potential, and deliver measurable transformation. 
+        This is learning, decoded and reconstructed.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 1: AI Core -->
+  <section class="section" id="ai-core">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+        <div>
+          <div class="pill-selector reveal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            AI-Powered Core
+          </div>
+          <h2 class="section-title reveal reveal-delay-1">Adaptive Intelligence That Knows You</h2>
+          <p class="text-[var(--fg-secondary)] text-lg mb-8 reveal reveal-delay-2">
+            Our core engine doesn't just deliver content—it understands cognitive patterns, predicts learning curves, 
+            and dynamically reshapes the educational journey in real-time.
+          </p>
+          <div class="reveal reveal-delay-3">
+            <button class="btn-primary">
+              Explore AI Features
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-4">
+          <div class="feature-detail-card liquid-glass reveal">
+            <div class="flex items-start gap-4">
+              <div class="feature-icon text-[var(--accent-gold)] flex-shrink-0">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-xl mb-2">Skill-Gap AI Scanner</h3>
+                <p class="text-[var(--fg-secondary)] text-sm">Analyzes your goals, background, and current market demand to identify the precise skills you need. No guesswork, just data-driven clarity.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="feature-detail-card liquid-glass reveal reveal-delay-1">
+            <div class="flex items-start gap-4">
+              <div class="feature-icon text-[var(--accent-gold)] flex-shrink-0">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-xl mb-2">Time-Bound Learning Paths</h3>
+                <p class="text-[var(--fg-secondary)] text-sm">Choose your timeline—14, 30, or 90 days. The AI recalibrates intensity and depth to match your schedule without compromising mastery.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-detail-card liquid-glass reveal reveal-delay-2">
+            <div class="flex items-start gap-4">
+              <div class="feature-icon text-[var(--accent-gold)] flex-shrink-0">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-xl mb-2">Adaptive Curriculum Engine</h3>
+                <p class="text-[var(--fg-secondary)] text-sm">Content reshapes in real-time based on your performance. Struggling? The system adjusts. Excelling? It accelerates. Always optimal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary AI Features Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="liquid-glass rounded-2xl p-6 reveal">
+          <h4 class="font-medium mb-2 text-[var(--accent-gold)]">Cognitive Load Optimizer</h4>
+          <p class="text-sm text-[var(--fg-secondary)]">Prevents burnout by adjusting difficulty based on mental fatigue signals.</p>
+        </div>
+        <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-1">
+          <h4 class="font-medium mb-2 text-[var(--accent-gold)]">Learning Style Detection</h4>
+          <p class="text-sm text-[var(--fg-secondary)]">Visual, auditory, kinesthetic—content adapts to how you learn best.</p>
+        </div>
+        <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-2">
+          <h4 class="font-medium mb-2 text-[var(--accent-gold)]">Micro-Skill Breakdown</h4>
+          <p class="text-sm text-[var(--fg-secondary)]">Complex skills decomposed into atomic, learnable units.</p>
+        </div>
+        <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-3">
+          <h4 class="font-medium mb-2 text-[var(--accent-gold)]">Spaced Repetition</h4>
+          <p class="text-sm text-[var(--fg-secondary)]">Neuroscience-backed system for long-term knowledge retention.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Just-In-Time -->
+  <section class="section" id="jit">
+    <div class="max-w-7xl mx-auto">
+      <div class="liquid-glass-intense rounded-3xl p-8 md:p-16">
+        <div class="text-center mb-12">
+          <div class="pill-selector reveal mx-auto">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Just-In-Time Education
+          </div>
+          <h2 class="section-title reveal reveal-delay-1">Learning at the Speed of Need</h2>
+          <p class="text-[var(--fg-secondary)] text-lg max-w-2xl mx-auto reveal reveal-delay-2">
+            Education shouldn't wait. Access targeted skill modules exactly when you need them—for tomorrow's meeting, next week's project, or an unexpected career pivot.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="feature-detail-card liquid-glass reveal text-center">
+            <div class="feature-icon mx-auto text-[var(--accent-gold)]">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <h3 class="font-display text-xl mb-2">Crisis Skill Kits</h3>
+            <p class="text-[var(--fg-secondary)] text-sm">Rapid-deployment learning modules for job loss, emergencies, or sudden opportunities.</p>
+          </div>
+
+          <div class="feature-detail-card liquid-glass reveal reveal-delay-1 text-center">
+            <div class="feature-icon mx-auto text-[var(--accent-gold)]">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 class="font-display text-xl mb-2">Zero-Fluff Mode</h3>
+            <p class="text-[var(--fg-secondary)] text-sm">Strip away theory. Get only what you need to execute. Perfect for practitioners.</p>
+          </div>
+
+          <div class="feature-detail-card liquid-glass reveal reveal-delay-2 text-center">
+            <div class="feature-icon mx-auto text-[var(--accent-gold)]">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3 class="font-display text-xl mb-2">Fast-Track Certifications</h3>
+            <p class="text-[var(--fg-secondary)] text-sm">Competency-based credentials. Prove what you know, not how long you studied.</p>
+          </div>
+        </div>
+        
+        <div class="mt-12 grid md:grid-cols-2 gap-4">
+           <div class="liquid-glass rounded-2xl p-6 reveal flex items-center gap-4">
+             <div class="text-[var(--accent-gold)]">
+               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+             </div>
+             <div>
+               <h4 class="font-medium">Daily 20-Minute Power Lessons</h4>
+               <p class="text-sm text-[var(--fg-secondary)]">Micro-learning designed for busy professionals.</p>
+             </div>
+           </div>
+           <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-1 flex items-center gap-4">
+             <div class="text-[var(--accent-gold)]">
+               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+             </div>
+             <div>
+               <h4 class="font-medium">Skill Expiry Alerts</h4>
+               <p class="text-sm text-[var(--fg-secondary)]">Get notified when your skills need refreshing.</p>
+             </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Validation -->
+  <section class="section" id="validation">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="order-2 lg:order-1">
+           <div class="grid grid-cols-2 gap-4">
+            <div class="liquid-glass rounded-2xl p-6 reveal col-span-2">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--accent-gold)] to-[var(--accent-warm)] flex items-center justify-center text-[var(--bg-primary)] font-bold">
+                  98
+                </div>
+                <div>
+                  <div class="font-display text-xl">Skill Confidence Score</div>
+                  <div class="text-sm text-[var(--fg-secondary)]">Global Standard Metric</div>
+                </div>
+              </div>
+              <div class="w-full bg-[rgba(255,255,255,0.1)] rounded-full h-2">
+                <div class="bg-gradient-to-r from-[var(--accent-gold)] to-[var(--accent-warm)] h-2 rounded-full" style="width: 98%"></div>
+              </div>
+            </div>
+            
+            <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-1">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <h4 class="font-medium mb-1">Project-Only Assessment</h4>
+              <p class="text-xs text-[var(--fg-secondary)]">No multiple choice tests. Real work only.</p>
+            </div>
+
+            <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-2">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <h4 class="font-medium mb-1">Blockchain Credentials</h4>
+              <p class="text-xs text-[var(--fg-secondary)]">Tamper-proof verification.</p>
+            </div>
+
+            <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-3">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h4 class="font-medium mb-1">Employer-Verified</h4>
+              <p class="text-xs text-[var(--fg-secondary)]">Badges trusted by industry.</p>
+            </div>
+
+            <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-4">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <h4 class="font-medium mb-1">AI-Graded Portfolio</h4>
+              <p class="text-xs text-[var(--fg-secondary)]">Intelligent work evaluation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-1 lg:order-2">
+          <div class="pill-selector reveal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Skill Validation
+          </div>
+          <h2 class="section-title reveal reveal-delay-1">Proof Over Promises</h2>
+          <p class="text-[var(--fg-secondary)] text-lg mb-8 reveal reveal-delay-2">
+            Traditional credentials are opaque. ELSIE's validation system is transparent, verifiable, and rooted in real-world demonstration. 
+            Your skills are proven, not just claimed.
+          </p>
+          <div class="reveal reveal-delay-3">
+            <button class="btn-secondary">
+              View Validation Framework
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Global Access -->
+  <section class="section" id="global">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <div class="pill-selector reveal mx-auto">
+           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+           Global Access
+        </div>
+        <h2 class="section-title reveal reveal-delay-1">Designed for the Entire World</h2>
+        <p class="text-[var(--fg-secondary)] text-lg max-w-2xl mx-auto reveal reveal-delay-2">
+          From high-bandwidth cities to remote villages. ELSIE's architecture ensures that geography and infrastructure are no longer barriers to world-class education.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="feature-detail-card liquid-glass reveal">
+          <div class="feature-icon text-[var(--accent-gold)]">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="font-display text-xl mb-2">Offline-First Mode</h3>
+          <p class="text-[var(--fg-secondary)] text-sm mb-4">Download your learning path. Sync when connected. No internet? No problem.</p>
+          <div class="text-xs text-[var(--accent-gold)] font-medium">Perfect for remote areas</div>
+        </div>
+
+        <div class="feature-detail-card liquid-glass reveal reveal-delay-1">
+          <div class="feature-icon text-[var(--accent-gold)]">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></path></svg>
+          </div>
+          <h3 class="font-display text-xl mb-2">Voice-Based Learning</h3>
+          <p class="text-[var(--fg-secondary)] text-sm mb-4">No reading required. Learn via voice commands and audio responses.</p>
+          <div class="text-xs text-[var(--accent-gold)] font-medium">Accessibility-first design</div>
+        </div>
+
+        <div class="feature-detail-card liquid-glass reveal reveal-delay-2">
+          <div class="feature-icon text-[var(--accent-gold)]">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </div>
+          <h3 class="font-display text-xl mb-2">SMS & WhatsApp</h3>
+          <p class="text-[var(--fg-secondary)] text-sm mb-4">Receive lessons, quizzes, and progress updates via text messaging.</p>
+          <div class="text-xs text-[var(--accent-gold)] font-medium">Works on any phone</div>
+        </div>
+      </div>
+
+      <div class="mt-12 liquid-glass rounded-3xl p-8 reveal">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="text-5xl font-display text-[var(--accent-gold)]">100+</div>
+            <div>
+              <div class="font-medium">Languages Supported</div>
+              <div class="text-sm text-[var(--fg-secondary)]">AI-powered real-time translation</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-6">
+            <div class="text-5xl font-display text-[var(--accent-gold)]">~0</div>
+            <div>
+              <div class="font-medium">Data Consumption</div>
+              <div class="text-sm text-[var(--fg-secondary)]">Ultra-low-data mode available</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="liquid-glass-intense rounded-3xl p-12 md:p-16">
+        <h2 class="section-title reveal">Experience the Difference</h2>
+        <p class="text-[var(--fg-secondary)] text-lg mb-10 reveal reveal-delay-1">
+          These aren't just features. They're the building blocks of a new educational paradigm.
+        </p>
+        <div class="reveal reveal-delay-2">
+          <button class="btn-primary text-lg py-4 px-8">
+            Start Your Journey
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="section py-16">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div>
+          <h3 class="font-display text-2xl text-[var(--accent-gold)] mb-4">ELSIE</h3>
+          <p class="text-[var(--fg-secondary)] text-sm">
+            The AI-powered learning ecosystem that adapts to you.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-medium mb-4">Platform</h4>
+          <ul class="space-y-2 text-sm text-[var(--fg-secondary)]">
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Features</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Pricing</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Enterprise</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">API</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-medium mb-4">Resources</h4>
+          <ul class="space-y-2 text-sm text-[var(--fg-secondary)]">
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Documentation</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Blog</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Community</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Careers</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-medium mb-4">Connect</h4>
+          <ul class="space-y-2 text-sm text-[var(--fg-secondary)]">
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Twitter</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">LinkedIn</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">GitHub</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-[var(--glass-border)] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-[var(--fg-secondary)]">
+          2025 ELSIE. All rights reserved.
+        </p>
+        <div class="flex gap-6 text-sm text-[var(--fg-secondary)]">
+          <a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Privacy</a>
+          <a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Terms</a>
+          <a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize variables
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navbar = document.getElementById('navbar');
+
+    // Hamburger Menu Toggle
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Mobile Menu Links
+    document.querySelectorAll('.mobile-menu-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Keyboard support for hamburger
+    hamburger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        hamburger.click();
+      }
+    });
+
+    // Scroll Effects
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Intersection Observer for Reveal Animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all reveal elements
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Parallax effect for orbs
+    document.addEventListener('mousemove', (e) => {
+      const orbs = document.querySelectorAll('.orb');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      orbs.forEach((orb, index) => {
+        const speed = (index + 1) * 20;
+        const xOffset = (x - 0.5) * speed;
+        const yOffset = (y - 0.5) * speed;
+        orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Reduced motion check
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReducedMotion.matches) {
+      document.querySelectorAll('.orb, .float-element').forEach(el => {
+        el.style.animation = 'none';
+      });
+    }
+  </script>
+</body>
+</html>

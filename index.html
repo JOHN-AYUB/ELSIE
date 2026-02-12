@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELSIE - AI-Powered Learning Revolution</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --fg-primary: #f5f5f7;
+      --fg-secondary: #a0a0a8;
+      --accent-gold: #c9a962;
+      --accent-gold-light: #e8d5a3;
+      --accent-warm: #d4a574;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-highlight: rgba(255, 255, 255, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .font-display {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Liquid Glass Effect */
+    .liquid-glass {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.02) 50%,
+        rgba(255, 255, 255, 0.05) 100%
+      );
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 var(--glass-highlight),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .liquid-glass-intense {
+      background: linear-gradient(
+        135deg,
+        rgba(201, 169, 98, 0.08) 0%,
+        rgba(255, 255, 255, 0.04) 50%,
+        rgba(201, 169, 98, 0.08) 100%
+      );
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(201, 169, 98, 0.15);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(201, 169, 98, 0.05),
+        inset 0 1px 0 rgba(201, 169, 98, 0.2);
+    }
+
+    /* Animated Background */
+    .hero-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201, 169, 98, 0.3) 0%, transparent 70%);
+      top: -200px;
+      right: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 165, 116, 0.25) 0%, transparent 70%);
+      bottom: -100px;
+      left: -100px;
+      animation-delay: -7s;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201, 169, 98, 0.2) 0%, transparent 70%);
+      top: 50%;
+      left: 30%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.05); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(20px, 30px) scale(1.02); }
+    }
+
+    /* Grid Pattern */
+    .grid-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: 
+        linear-gradient(rgba(201, 169, 98, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 169, 98, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+    }
+
+    /* Navigation */
+    .nav-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-container.scrolled {
+      padding: 0.75rem 2rem;
+    }
+
+    .nav-container.scrolled .nav-inner {
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      border-radius: 100px;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-link {
+      position: relative;
+      color: var(--fg-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--fg-primary);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      width: 28px;
+      height: 20px;
+      position: relative;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      display: block;
+      position: absolute;
+      height: 1.5px;
+      width: 100%;
+      background: var(--fg-primary);
+      border-radius: 2px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hamburger span:nth-child(1) { top: 0; }
+    .hamburger span:nth-child(2) { top: 9px; width: 70%; }
+    .hamburger span:nth-child(3) { top: 18px; width: 85%; }
+
+    .hamburger.active span:nth-child(1) {
+      top: 9px;
+      transform: rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .hamburger.active span:nth-child(3) {
+      top: 9px;
+      width: 100%;
+      transform: rotate(-45deg);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 10, 15, 0.98);
+      backdrop-filter: blur(30px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mobile-menu.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu-link {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--fg-secondary);
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mobile-menu.active .mobile-menu-link {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu-link:hover {
+      color: var(--accent-gold);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 50%, var(--accent-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* Feature Cards */
+    .feature-card {
+      position: relative;
+      padding: 2rem;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(201, 169, 98, 0.1) 0%,
+        transparent 50%
+      );
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(201, 169, 98, 0.05);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, rgba(201, 169, 98, 0.2) 0%, rgba(201, 169, 98, 0.05) 100%);
+      border: 1px solid rgba(201, 169, 98, 0.2);
+    }
+
+    /* Section Styling */
+    .section {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      color: var(--fg-secondary);
+      font-size: 1.125rem;
+      max-width: 600px;
+    }
+
+    /* Category Tabs */
+    .category-tab {
+      padding: 0.75rem 1.5rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--fg-secondary);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .category-tab:hover {
+      color: var(--fg-primary);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .category-tab.active {
+      color: var(--bg-primary);
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+    }
+
+    /* Feature Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* CTA Button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-warm) 100%);
+      color: var(--bg-primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(201, 169, 98, 0.3);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: transparent;
+      color: var(--fg-primary);
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      border-radius: 100px;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent-gold);
+    }
+
+    /* Stats Counter */
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--fg-primary) 0%, var(--accent-gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      background: rgba(10, 10, 15, 0.5);
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--fg-secondary);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* Floating Elements */
+    .float-element {
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-inner {
+        padding: 0.75rem 1rem;
+      }
+      
+      .section {
+        padding: 4rem 1rem;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 6rem 1rem 4rem;
+      }
+    }
+
+    /* Focus States */
+    :focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="hero-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-pattern"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-container" id="navbar">
+    <div class="nav-inner liquid-glass">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">
+          <span class="text-[var(--accent-gold)]">ELSIE</span>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-8">
+            <a href="index.html" class="nav-link">Home</a>
+          <a href="features.html" class="nav-link">Features</a>
+          <a href="how it works.html" class="nav-link">How It Works</a>
+          <a href="funding.html" class="nav-link">Funding</a>
+          <a href="impact.html" class="nav-link">Impact</a>
+          <button class="btn-primary text-sm py-2 px-4">Get Started</button>
+        </div>
+
+        <div class="hamburger md:hidden" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-menu-link">Home</a>
+    <a href="features.html" class="mobile-menu-link">Features</a>
+    <a href="#how-it-works" class="mobile-menu-link">How It Works</a>
+    <a href="funding.html" class="mobile-menu-link">Funding</a>
+    <a href="impact.html" class="mobile-menu-link">Impact</a>
+    <button class="btn-primary mt-8">Get Started</button>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="reveal mb-6">
+        <span class="inline-block px-4 py-2 rounded-full liquid-glass text-sm text-[var(--accent-gold)] font-medium tracking-wide">
+          The Future of Learning is Here
+        </span>
+      </div>
+      
+      <h1 class="hero-title reveal reveal-delay-1 mb-6">
+        Education<br>
+        <span class="highlight">Reimagined</span>
+      </h1>
+      
+      <p class="reveal reveal-delay-2 text-lg md:text-xl text-[var(--fg-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed">
+        ELSIE is an AI-powered learning ecosystem that adapts to you. 
+        Personalized paths, instant funding, and real-world validation 
+        — all in one revolutionary platform.
+      </p>
+      
+      <div class="reveal reveal-delay-3 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button class="btn-primary">
+          Begin Your Journey
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+        <button class="btn-secondary">
+          Watch Demo
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="scroll-indicator">
+        <span>SCROLL TO EXPLORE</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="section">
+    <div class="max-w-6xl mx-auto">
+      <div class="liquid-glass-intense rounded-3xl p-8 md:p-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div class="reveal">
+            <div class="stat-number" data-count="100">0</div>
+            <div class="text-[var(--fg-secondary)] text-sm mt-2">Languages Supported</div>
+          </div>
+          <div class="reveal reveal-delay-1">
+            <div class="stat-number" data-count="50">0</div>
+            <div class="text-[var(--fg-secondary)] text-sm mt-2">Skill Categories</div>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <div class="stat-number" data-count="24">0</div>
+            <div class="text-[var(--fg-secondary)] text-sm mt-2">Hour AI Coach</div>
+          </div>
+          <div class="reveal reveal-delay-3">
+            <div class="stat-number" data-count="1">0</div>
+            <div class="text-[var(--fg-secondary)] text-sm mt-2">Global Standard</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="section-title reveal">Complete Learning Ecosystem</h2>
+        <p class="section-subtitle reveal reveal-delay-1 mx-auto">
+          Ten revolutionary pillars designed to transform how the world learns, earns, and grows.
+        </p>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12 reveal reveal-delay-2" id="categoryTabs">
+        <button class="category-tab active" data-category="ai">AI Learning</button>
+        <button class="category-tab" data-category="time">Just-In-Time</button>
+        <button class="category-tab" data-category="funding">Funding</button>
+        <button class="category-tab" data-category="global">Global Access</button>
+        <button class="category-tab" data-category="validation">Validation</button>
+        <button class="category-tab" data-category="career">Career</button>
+        <button class="category-tab" data-category="community">Community</button>
+        <button class="category-tab" data-category="future">Future Tech</button>
+        <button class="category-tab" data-category="impact">System Impact</button>
+        <button class="category-tab" data-category="psychology">Psychology</button>
+      </div>
+
+      <!-- Feature Cards Container -->
+      <div class="feature-grid" id="featureGrid">
+        <!-- Features will be dynamically inserted here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section" id="how-it-works">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="section-title reveal">How ELSIE Works</h2>
+        <p class="section-subtitle reveal reveal-delay-1 mx-auto">
+          Three steps to transform your learning journey
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="reveal liquid-glass rounded-3xl p-8 text-center float-element" style="animation-delay: 0s;">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-[var(--accent-gold)] to-[var(--accent-warm)] flex items-center justify-center text-[var(--bg-primary)] font-display text-2xl font-semibold">
+            1
+          </div>
+          <h3 class="font-display text-2xl mb-4">Scan</h3>
+          <p class="text-[var(--fg-secondary)]">
+            Our AI analyzes your goals, background, and market demand to map your exact skill requirements.
+          </p>
+        </div>
+
+        <div class="reveal reveal-delay-1 liquid-glass rounded-3xl p-8 text-center float-element" style="animation-delay: 0.5s;">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-[var(--accent-gold)] to-[var(--accent-warm)] flex items-center justify-center text-[var(--bg-primary)] font-display text-2xl font-semibold">
+            2
+          </div>
+          <h3 class="font-display text-2xl mb-4">Learn</h3>
+          <p class="text-[var(--fg-secondary)]">
+            Follow your personalized, adaptive learning path with real-time optimization and 24/7 AI coaching.
+          </p>
+        </div>
+
+        <div class="reveal reveal-delay-2 liquid-glass rounded-3xl p-8 text-center float-element" style="animation-delay: 1s;">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-[var(--accent-gold)] to-[var(--accent-warm)] flex items-center justify-center text-[var(--bg-primary)] font-display text-2xl font-semibold">
+            3
+          </div>
+          <h3 class="font-display text-2xl mb-4">Validate</h3>
+          <p class="text-[var(--fg-secondary)]">
+            Prove your skills through real-world projects, earn verified credentials, and connect with opportunities.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Funding Section -->
+  <section class="section" id="funding">
+    <div class="max-w-6xl mx-auto">
+      <div class="liquid-glass-intense rounded-3xl p-8 md:p-16">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <span class="inline-block px-4 py-2 rounded-full bg-[rgba(201,169,98,0.1)] text-[var(--accent-gold)] text-sm font-medium mb-6 reveal">
+              Financial Inclusion
+            </span>
+            <h2 class="section-title reveal reveal-delay-1">Learn Now,<br>Pay When You Earn</h2>
+            <p class="text-[var(--fg-secondary)] text-lg mb-8 reveal reveal-delay-2">
+              Revolutionary funding models that remove barriers. Income-share agreements, skill-backed micro-loans, 
+              and employer partnerships ensure everyone can access world-class education.
+            </p>
+            <div class="reveal reveal-delay-3">
+              <button class="btn-primary">
+                Explore Funding Options
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="liquid-glass rounded-2xl p-6 reveal">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <h4 class="font-medium mb-1">ISA</h4>
+              <p class="text-sm text-[var(--fg-secondary)]">Pay only after earning</p>
+            </div>
+            <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-1">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+              </div>
+              <h4 class="font-medium mb-1">Micro-Loans</h4>
+              <p class="text-sm text-[var(--fg-secondary)]">AI-predicted ROI</p>
+            </div>
+            <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-2">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <h4 class="font-medium mb-1">Sponsorship</h4>
+              <p class="text-sm text-[var(--fg-secondary)]">Community-funded</p>
+            </div>
+            <div class="liquid-glass rounded-2xl p-6 reveal reveal-delay-3">
+              <div class="text-[var(--accent-gold)] mb-2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              </div>
+              <h4 class="font-medium mb-1">Skill NFTs</h4>
+              <p class="text-sm text-[var(--fg-secondary)]">Proof of competence</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section class="section" id="impact">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="section-title reveal">Built for Global Impact</h2>
+      <p class="section-subtitle reveal reveal-delay-1 mx-auto mb-16">
+        From individual learners to entire nations, ELSIE scales to meet the world's education needs.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="liquid-glass rounded-3xl p-8 reveal">
+          <div class="text-5xl font-display text-[var(--accent-gold)] mb-4">100+</div>
+          <h3 class="font-display text-xl mb-2">Languages</h3>
+          <p class="text-[var(--fg-secondary)] text-sm">AI-powered translation for truly global access</p>
+        </div>
+        
+        <div class="liquid-glass rounded-3xl p-8 reveal reveal-delay-1">
+          <div class="text-5xl font-display text-[var(--accent-gold)] mb-4">0</div>
+          <h3 class="font-display text-xl mb-2">Barriers</h3>
+          <p class="text-[var(--fg-secondary)] text-sm">Offline mode, low-data version, voice-based learning</p>
+        </div>
+        
+        <div class="liquid-glass rounded-3xl p-8 reveal reveal-delay-2">
+          <div class="text-5xl font-display text-[var(--accent-gold)] mb-4">1</div>
+          <h3 class="font-display text-xl mb-2">Standard</h3>
+          <p class="text-[var(--fg-secondary)] text-sm">Global skill validation recognized by employers worldwide</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="liquid-glass-intense rounded-3xl p-12 md:p-16">
+        <h2 class="section-title reveal">Ready to Transform Your Future?</h2>
+        <p class="text-[var(--fg-secondary)] text-lg mb-10 reveal reveal-delay-1">
+          Join millions of learners who are already experiencing the future of education.
+        </p>
+        <div class="reveal reveal-delay-2">
+          <button class="btn-primary text-lg py-4 px-8">
+            Start Learning Today
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="section py-16">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div>
+          <h3 class="font-display text-2xl text-[var(--accent-gold)] mb-4">ELSIE</h3>
+          <p class="text-[var(--fg-secondary)] text-sm">
+            The AI-powered learning ecosystem that adapts to you.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-medium mb-4">Platform</h4>
+          <ul class="space-y-2 text-sm text-[var(--fg-secondary)]">
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Features</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Pricing</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Enterprise</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">API</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-medium mb-4">Resources</h4>
+          <ul class="space-y-2 text-sm text-[var(--fg-secondary)]">
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Documentation</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Blog</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Community</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Careers</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-medium mb-4">Connect</h4>
+          <ul class="space-y-2 text-sm text-[var(--fg-secondary)]">
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Twitter</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">LinkedIn</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">GitHub</a></li>
+            <li><a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Discord</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-[var(--glass-border)] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-[var(--fg-secondary)]">
+          2025 ELSIE. All rights reserved.
+        </p>
+        <div class="flex gap-6 text-sm text-[var(--fg-secondary)]">
+          <a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Privacy</a>
+          <a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Terms</a>
+          <a href="#" class="hover:text-[var(--fg-primary)] transition-colors">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Feature Data
+    const featureData = {
+      ai: {
+        title: 'AI-Powered Personalized Learning',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+        features: [
+          { name: 'Skill-Gap AI Scanner', desc: 'Analyzes goals, background, and market demand to identify exact skills needed' },
+          { name: 'Time-Bound Learning Paths', desc: 'Learn X in 14 days / 30 days / 90 days with structured milestones' },
+          { name: 'Adaptive Curriculum Engine', desc: 'Content reshapes in real time based on your performance' },
+          { name: 'AI Learning Coach', desc: '24/7 mentor that explains concepts in multiple ways' },
+          { name: 'Cognitive Load Optimizer', desc: 'Adjusts lesson difficulty to avoid burnout' },
+          { name: 'Learning Style Detection', desc: 'Visual, auditory, kinesthetic, or mixed approach' },
+          { name: 'Micro-Skill Breakdown', desc: 'Skills decomposed into atomic competencies' },
+          { name: 'Instant Concept Re-teaching', desc: 'AI detects confusion before you realize it' },
+          { name: 'Knowledge Retention Tracker', desc: 'Real-time monitoring of what you remember' },
+          { name: 'Spaced Repetition System', desc: 'Neuroscience-based retention optimization' }
+        ]
+      },
+      time: {
+        title: 'Just-In-Time Education',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+        features: [
+          { name: 'Learn for Tomorrow Mode', desc: 'Crash courses for urgent needs and upcoming challenges' },
+          { name: 'Crisis Skill Kits', desc: 'Skills for job loss, emergencies, sudden opportunities' },
+          { name: 'Role-Specific Learning', desc: 'Teach me only what a junior data analyst needs' },
+          { name: 'Task-Triggered Lessons', desc: 'Learning activates when you hit a real problem' },
+          { name: 'Outcome-First Learning', desc: 'Start with the result, reverse-engineer the skill' },
+          { name: 'Fast-Track Certifications', desc: 'Competency-based, not time-based credentials' },
+          { name: 'Skill Expiry Alerts', desc: 'Know when your skills become outdated' },
+          { name: 'Daily Power Lessons', desc: '20-minute focused learning sessions' },
+          { name: 'Weekend Skill Sprints', desc: 'Intensive weekend learning programs' },
+          { name: 'Zero-Fluff Mode', desc: 'Removes theory unless strictly necessary' }
+        ]
+      },
+      funding: {
+        title: 'Funding and Financial Inclusion',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+        features: [
+          { name: 'Income-Share Agreements', desc: 'Pay only after you start earning' },
+          { name: 'Skill-Backed Micro-Loans', desc: 'AI predicts ROI before approving' },
+          { name: 'Sponsor-a-Learner Marketplace', desc: 'Community-funded education opportunities' },
+          { name: 'Employer-Funded Contracts', desc: 'Companies invest in your upskilling' },
+          { name: 'Scholarship Matching AI', desc: 'Automatically find relevant scholarships' },
+          { name: 'Learn-Now-Pay-Later', desc: 'Flexible payment timing options' },
+          { name: 'Skill NFTs', desc: 'Blockchain proof of your competence' },
+          { name: 'Tokenized Education Credits', desc: 'Tradeable learning currency' },
+          { name: 'Crowdfunded Learning Pools', desc: 'Community-supported education funds' },
+          { name: 'Performance-Based Tuition', desc: 'Better results mean lower costs' }
+        ]
+      },
+      global: {
+        title: 'Global and Future-Proof Access',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+        features: [
+          { name: 'Offline-First Mode', desc: 'Learn anywhere, sync when connected' },
+          { name: 'Ultra-Low-Data Version', desc: 'Optimized for Africa and Global South' },
+          { name: 'AI Translation', desc: '100+ languages supported natively' },
+          { name: 'Voice-Based Learning', desc: 'No reading required' },
+          { name: 'Local Context Customization', desc: 'Content adapted to your region' },
+          { name: 'Currency-Flexible Payments', desc: 'Pay in your local currency' },
+          { name: 'Time-Zone Adaptive Cohorts', desc: 'Learn with peers in your timezone' },
+          { name: 'Accessibility Features', desc: 'AI-powered disability support' },
+          { name: 'SMS and WhatsApp Learning', desc: 'Learn via messaging apps' },
+          { name: 'Community Hubs Integration', desc: 'Connect with local learning centers' }
+        ]
+      },
+      validation: {
+        title: 'Skill Validation and Real-World Proof',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+        features: [
+          { name: 'Project-Only Assessment', desc: 'No tests, just real projects' },
+          { name: 'Real Client Challenges', desc: 'Work on actual business problems' },
+          { name: 'AI-Graded Portfolios', desc: 'Intelligent evaluation of your work' },
+          { name: 'Skill Confidence Score', desc: 'Global standard competency metric' },
+          { name: 'Live Skill Demonstrations', desc: 'Prove skills in real-time' },
+          { name: 'Employer-Verified Badges', desc: 'Credentials companies trust' },
+          { name: 'Blockchain Verification', desc: 'Tamper-proof credential storage' },
+          { name: 'Anti-Cheat Behavioral AI', desc: 'Ensures assessment integrity' },
+          { name: 'Skill Decay Monitoring', desc: 'Track knowledge retention over time' },
+          { name: 'Cross-Industry Mapping', desc: 'Skills transferable across sectors' }
+        ]
+      },
+      career: {
+        title: 'Career, Business and Income Integration',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`,
+        features: [
+          { name: 'AI Career Pathfinder', desc: 'Discover your ideal career trajectory' },
+          { name: 'Freelance Gig Matching', desc: 'Connect with relevant opportunities' },
+          { name: 'Startup Builder Tracks', desc: 'Learn to build your own business' },
+          { name: 'Remote Job Placement', desc: 'Access global remote opportunities' },
+          { name: 'Skill-to-Income Calculator', desc: 'Know your earning potential' },
+          { name: 'Portfolio Auto-Builder', desc: 'Automatically showcase your best work' },
+          { name: 'Interview Simulation AI', desc: 'Practice with realistic scenarios' },
+          { name: 'Negotiation Training', desc: 'Master salary and contract negotiations' },
+          { name: 'Global Employer Network', desc: 'Direct connections to hiring companies' },
+          { name: 'Founder-in-Residence', desc: 'Startup incubator tracks' }
+        ]
+      },
+      community: {
+        title: 'Social, Community and Network Effects',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+        features: [
+          { name: 'Skill-Based Social Graph', desc: 'Connect by competence, not followers' },
+          { name: 'Peer Skill Trading', desc: 'Exchange expertise with others' },
+          { name: 'Mentor Matching AI', desc: 'Find the perfect mentor for your goals' },
+          { name: 'Accountability Pods', desc: 'Small groups that keep you on track' },
+          { name: 'Global Hackathons', desc: 'Compete and collaborate worldwide' },
+          { name: 'Problem-Solving Arenas', desc: 'Real challenges, real solutions' },
+          { name: 'Skill Reputation System', desc: 'Build credibility through contributions' },
+          { name: 'Community-Built Courses', desc: 'Learn from practitioner-created content' },
+          { name: 'Alumni Investment Network', desc: 'Graduates investing in graduates' },
+          { name: 'Cross-Generational Learning', desc: 'Wisdom transfer across age groups' }
+        ]
+      },
+      future: {
+        title: 'AI and Future Technologies',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+        features: [
+          { name: 'AI-Generated Courses', desc: 'Custom content created just for you' },
+          { name: 'Digital Twin of the Learner', desc: 'AI model that learns like you' },
+          { name: 'Emotion-Aware AI', desc: 'Detects and responds to your mood' },
+          { name: 'VR and AR Simulations', desc: 'Immersive skill practice environments' },
+          { name: 'AI Debate Engine', desc: 'Sharpen critical thinking skills' },
+          { name: 'Creativity Amplification', desc: 'Tools that enhance creative output' },
+          { name: 'Ethical AI Education', desc: 'Learn responsible AI development' },
+          { name: 'Human-AI Collaboration', desc: 'Work effectively with AI systems' },
+          { name: 'Quantum and Frontier Tech', desc: 'Cutting-edge technology tracks' },
+          { name: 'AI-Designed Experiments', desc: 'Optimal learning paths generated by AI' }
+        ]
+      },
+      impact: {
+        title: 'System-Level Impact',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`,
+        features: [
+          { name: 'National Skill Gap Dashboards', desc: 'Government workforce intelligence' },
+          { name: 'Public-Private Partnerships', desc: 'Collaborative education initiatives' },
+          { name: 'Corporate Reskilling Platforms', desc: 'Enterprise-scale workforce transformation' },
+          { name: 'Disaster-Response Training', desc: 'Rapid skill deployment in crises' },
+          { name: 'Refugee Education Mode', desc: 'Supporting displaced learners globally' },
+          { name: 'Prison Education Tracks', desc: 'Rehabilitation through learning' },
+          { name: 'Education as Infrastructure', desc: 'API-first education delivery' },
+          { name: 'Global Skill Standardization', desc: 'Universal competency frameworks' },
+          { name: 'AI Policy Education', desc: 'Governance and ethics training' },
+          { name: 'Impact Analytics', desc: 'Measure education outcomes at scale' }
+        ]
+      },
+      psychology: {
+        title: 'Psychology, Motivation and Human Design',
+        icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+        features: [
+          { name: 'Burnout Prediction System', desc: 'Prevent exhaustion before it happens' },
+          { name: 'Purpose and Identity Mapping', desc: 'Align learning with life goals' },
+          { name: 'Gamified Mastery Progression', desc: 'Engaging achievement systems' },
+          { name: 'Dopamine-Smart Rewards', desc: 'Healthy motivation mechanics' },
+          { name: 'Resilience Training', desc: 'Build mental strength alongside skills' },
+          { name: 'Focus and Deep-Work Mode', desc: 'Distraction-free learning environments' },
+          { name: 'Habit-Building AI', desc: 'Develop sustainable learning routines' },
+          { name: 'Failure-Safe Paths', desc: 'Learn without fear of setbacks' },
+          { name: 'Confidence Reconstruction', desc: 'Rebuild self-belief through progress' },
+          { name: 'Legacy Builder Mode', desc: 'Teach what you master to others' }
+        ]
+      }
+    };
+
+    // Initialize variables
+    let currentCategory = 'ai';
+    const featureGrid = document.getElementById('featureGrid');
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const navbar = document.getElementById('navbar');
+
+    // Render Features
+    function renderFeatures(category) {
+      const data = featureData[category];
+      if (!data) return;
+      
+      featureGrid.innerHTML = '';
+      
+      data.features.forEach((feature, index) => {
+        const card = document.createElement('div');
+        card.className = `feature-card liquid-glass reveal`;
+        card.style.transitionDelay = `${index * 0.05}s`;
+        
+        card.innerHTML = `
+          <div class="feature-icon text-[var(--accent-gold)]">
+            ${data.icon}
+          </div>
+          <h3 class="font-display text-xl mb-2">${feature.name}</h3>
+          <p class="text-[var(--fg-secondary)] text-sm">${feature.desc}</p>
+        `;
+        
+        featureGrid.appendChild(card);
+        
+        // Trigger reveal animation
+        setTimeout(() => {
+          card.classList.add('active');
+        }, 50);
+      });
+    }
+
+    // Category Tab Click Handler
+    categoryTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        categoryTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentCategory = tab.dataset.category;
+        renderFeatures(currentCategory);
+      });
+    });
+
+    // Hamburger Menu Toggle
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Mobile Menu Links
+    document.querySelectorAll('.mobile-menu-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Keyboard support for hamburger
+    hamburger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        hamburger.click();
+      }
+    });
+
+    // Scroll Effects
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      // Navbar background
+      if (currentScroll > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // Intersection Observer for Reveal Animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all reveal elements
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Counter Animation
+    function animateCounters() {
+      const counters = document.querySelectorAll('.stat-number');
+      
+      counters.forEach(counter => {
+        const target = parseInt(counter.dataset.count);
+        const duration = 2000;
+        const start = performance.now();
+        
+        function update(currentTime) {
+          const elapsed = currentTime - start;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const current = Math.floor(easeOutQuart * target);
+          
+          counter.textContent = current + (target === 1 ? '' : '+');
+          
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          }
+        }
+        
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Trigger counter animation when stats section is visible
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          statsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.stat-number');
+    if (statsSection) {
+      statsObserver.observe(statsSection.parentElement.parentElement);
+    }
+
+    // Initialize
+    renderFeatures(currentCategory);
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Parallax effect for orbs
+    document.addEventListener('mousemove', (e) => {
+      const orbs = document.querySelectorAll('.orb');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      orbs.forEach((orb, index) => {
+        const speed = (index + 1) * 20;
+        const xOffset = (x - 0.5) * speed;
+        const yOffset = (y - 0.5) * speed;
+        orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      });
+    });
+
+    // Reduced motion check
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReducedMotion.matches) {
+      document.querySelectorAll('.orb, .float-element').forEach(el => {
+        el.style.animation = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
